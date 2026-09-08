@@ -5,18 +5,23 @@ Reuse VS Code's Electron storage service for remote persistence
 @@ -14 +14 @@
 -import { ILifecycleMainService, LifecycleMainPhase, ShutdownReason } from '../../lifecycle/electron-main/lifecycleMainService.js';
 +import type { ILifecycleMainService, ShutdownReason } from '../../lifecycle/electron-main/lifecycleMainService.js';
++
++// Keep these values local so the server does not load lifecycleMainService at runtime;
++// that module imports Electron, which is not present in the code-server server image.
++const LIFECYCLE_MAIN_PHASE_AFTER_WINDOW_OPEN = 3;
++const SHUTDOWN_REASON_KILL = 2;
 @@ -101 +101 @@
 -		@ILifecycleMainService private readonly lifecycleMainService: ILifecycleMainService,
 +		private readonly lifecycleMainService: ILifecycleMainService,
 @@ -117 +117 @@
 -			await this.lifecycleMainService.when(LifecycleMainPhase.AfterWindowOpen);
-+			await this.lifecycleMainService.when(3 /* LifecycleMainPhase.AfterWindowOpen */);
++			await this.lifecycleMainService.when(LIFECYCLE_MAIN_PHASE_AFTER_WINDOW_OPEN);
 @@ -256 +256 @@
 -		if (this.shutdownReason === ShutdownReason.KILL) {
-+		if (this.shutdownReason === 2 /* ShutdownReason.KILL */) {
++		if (this.shutdownReason === SHUTDOWN_REASON_KILL) {
 @@ -295 +295 @@
 -		if (this.shutdownReason === ShutdownReason.KILL) {
-+		if (this.shutdownReason === 2 /* ShutdownReason.KILL */) {
++		if (this.shutdownReason === SHUTDOWN_REASON_KILL) {
 
 --- code-server.orig/lib/vscode/src/vs/workbench/services/storage/electron-browser/storageService.ts
 +++ code-server/lib/vscode/src/vs/workbench/services/storage/electron-browser/storageService.ts
