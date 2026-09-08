@@ -95,7 +95,10 @@ jobs:
       - uses: bmuschko/setup-kubeconform@e5d264ec1eafe2314e750c429a9da7639dd5a003 # v1.1.0
         with:
           kubeconform-version: "0.8.0"
-      - run: kubeconform ci/helm-chart
+      - uses: azure/setup-helm@v4
+        with:
+          version: v3.17.3
+      - run: helm template code-server ci/helm-chart | kubeconform -strict -summary -
 
   lint-ts:
     name: Lint TypeScript files
