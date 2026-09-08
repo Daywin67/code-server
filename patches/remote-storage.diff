@@ -40,9 +40,14 @@ Reuse VS Code's Electron storage service for remote persistence
 +		uriIdentityService,
 +	));
 +
-@@ -362,0 +382,2 @@
-+
+@@ -419,6 +439,7 @@ export async function setupServerServices(connectionToken: ServerConnectionToken
+ 
+ 		const languagePackChannel = ProxyChannel.fromService<RemoteAgentConnectionContext>(accessor.get(ILanguagePackService), disposables);
+ 		socketServer.registerChannel('languagePacks', languagePackChannel);
 +		socketServer.registerChannel('storage', disposables.add(new StorageDatabaseChannel(logService, storageMainService)));
+ 
+ 		// clean up extensions folder
+ 		remoteExtensionsScanner.whenExtensionsReady().then(() => extensionManagementService.cleanUp());
 --- code-server.orig/lib/vscode/src/vs/server/node/webClientServer.ts
 +++ code-server/lib/vscode/src/vs/server/node/webClientServer.ts
 @@ -411 +411,2 @@
