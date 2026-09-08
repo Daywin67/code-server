@@ -2,7 +2,7 @@ Reuse VS Code's Electron storage service for remote persistence
 
 --- code-server.orig/lib/vscode/src/vs/platform/storage/electron-main/storageMainService.ts
 +++ code-server/lib/vscode/src/vs/platform/storage/electron-main/storageMainService.ts
-@@ -14 +14 @@
+@@ -14 +14,6 @@
 -import { ILifecycleMainService, LifecycleMainPhase, ShutdownReason } from '../../lifecycle/electron-main/lifecycleMainService.js';
 +import type { ILifecycleMainService, ShutdownReason } from '../../lifecycle/electron-main/lifecycleMainService.js';
 +
